@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyay Sathi — Find Your Way to Court</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1a18;
+    --ink-2: #4a4a46;
+    --ink-3: #88887f;
+    --paper: #f7f5f0;
+    --paper-2: #edeae2;
+    --paper-3: #e2dfd5;
+    --accent: #8b3a2a;
+    --accent-bg: #faf0ec;
+    --accent-border: #e8c4b8;
+    --success: #2d6a4f;
+    --success-bg: #eaf4ee;
+    --warn: #7a5c00;
+    --warn-bg: #fdf7e3;
+    --warn-border: #e8d58a;
+    --border: rgba(0,0,0,0.10);
+    --border-strong: rgba(0,0,0,0.18);
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 8px;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--paper);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-mark svg { width: 18px; height: 18px; fill: #fff5f0; }
+  .logo-text {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .logo-text span { color: var(--accent); }
+  .nav-tag {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border-strong);
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* LANG BAR */
+  .lang-strip {
+    background: var(--paper-2);
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lang-label { font-size: 12px; color: var(--ink-3); margin-right: 4px; }
+  .lang-btn {
+    padding: 4px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: var(--sans);
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink-2);
+    transition: all 0.15s;
+  }
+  .lang-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff5f0;
+    font-weight: 500;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 4rem 2rem 3rem;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero p {
+    font-size: 17px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 2rem;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--ink);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+
+  /* MAIN TOOL AREA */
+  .tool-wrap {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+
+  /* PROGRESS */
+  .progress-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+  }
+  .progress-step {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .progress-step.done { color: var(--success); }
+  .progress-step.active { color: var(--ink); font-weight: 500; }
+  .progress-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+    flex-shrink: 0;
+    color: var(--ink-3);
+  }
+  .progress-step.done .progress-dot {
+    background: var(--success);
+    border-color: var(--success);
+    color: #fff;
+  }
+  .progress-step.active .progress-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .progress-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .progress-line.done { background: var(--success); }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* QUESTION */
+  .question-header {
+    margin-bottom: 1.5rem;
+  }
+  .q-step {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    margin-bottom: 0.5rem;
+  }
+  .question-header h2 {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+  .question-header p { font-size: 15px; color: var(--ink-2); }
+
+  /* OPTIONS */
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.25rem; }
+  .opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 1.1rem 1.25rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .opt:hover {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+  }
+  .opt-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius);
+    background: var(--paper-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  .opt:hover .opt-icon { background: var(--accent-border); }
+  .opt-body strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .opt-body span { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+
+  /* RESULT */
+  .result-banner {
+    background: var(--success-bg);
+    border: 1px solid #b7dfc9;
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+  .result-banner-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .result-banner h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--success);
+    margin-bottom: 3px;
+  }
+  .result-banner p { font-size: 13px; color: var(--success); }
+
+  /* STEPS */
+  .steps-card {
+    background: #fff;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  .steps-card-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .step-row {
+    display: flex;
+    gap: 14px;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .step-row:last-child { border-bottom: none; }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-border);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-family: var(--serif);
+  }
+  .step-body strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .step-body span { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+  /* INFO / WARN BOX */
+  .info-box {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .info-box-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+  .info-box p { font-size: 13px; color: var(--warn); line-height: 1.6; }
+
+  /* TAGS */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+  .tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: var(--paper-2);
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    color: var(--ink-2);
+    font-family: var(--sans);
+  }
+
+  /* NAV BUTTONS */
+  .nav-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-back {
+    padding: 9px 18px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--ink-2);
+    font-size: 14px;
+    font-family: var(--sans);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.12s;
+  }
+  .btn-back:hover { background: var(--paper-2); }
+  .btn-restart {
+    padding: 9px 18px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff5f0;
+    font-size: 14px;
+    font-family: var(--sans);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.12s;
+    margin-left: auto;
+  }
+  .btn-restart:hover { background: #722e20; }
+  .btn-secondary {
+    padding: 9px 18px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--ink);
+    font-size: 14px;
+    font-family: var(--sans);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* BREADCRUMB */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .breadcrumb span { font-size: 12px; color: var(--ink-3); }
+  .breadcrumb .crumb {
+    font-size: 12px;
+    color: var(--ink-2);
+    background: var(--paper-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  /* DIVIDER */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 3rem 0;
+  }
+
+  /* ABOUT SECTION */
+  .about-strip {
+    background: var(--paper-2);
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+  }
+  .about-inner {
+    max-width: 660px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+  }
+  .about-col h3 {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+  .about-col p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+  .about-col .pill {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 34px; }
+    .stat-row { gap: 1rem; }
+    .about-inner { grid-template-columns: 1fr; gap: 1.25rem; }
+    nav { padding: 0.75rem 1rem; }
+    .tool-wrap { padding: 0 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 20 20"><path d="M10 2L3 7v6l7 5 7-5V7L10 2zm0 2.5L15 8v4l-5 3.5L5 12V8l5-3.5z"/></svg>
+    </div>
+    <span class="logo-text">Nyay <span>Sathi</span></span>
+  </div>
+  <span class="nav-tag">JLF Prototype · Access to Justice</span>
+</nav>
+
+<div class="lang-strip">
+  <span class="lang-label">Language:</span>
+  <button class="lang-btn active" onclick="setLang('en', this)">English</button>
+  <button class="lang-btn" onclick="setLang('hi', this)">हिंदी</button>
+  <button class="lang-btn" onclick="setLang('ur', this)">اردو</button>
+  <button class="lang-btn" onclick="setLang('pa', this)">ਪੰਜਾਬੀ</button>
+</div>
+
+<div class="hero" id="hero-section">
+  <div class="hero-eyebrow" id="eyebrow-text">Your rights. Your court. Your guide.</div>
+  <h1 id="hero-title">Find your way to <em>court</em></h1>
+  <p id="hero-sub">Answer a few questions. We'll tell you exactly what to do, where to go, and what to bring — in plain language, no lawyer needed to get started.</p>
+
+  <div class="stat-row">
+    <div class="stat">
+      <span class="stat-num">5 Cr+</span>
+      <span class="stat-label">Cases pending<br>in Indian courts</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">77%</span>
+      <span class="stat-label">Undertrials who<br>can't afford a lawyer</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">Free</span>
+      <span class="stat-label">Legal aid available<br>to eligible persons</span>
+    </div>
+  </div>
+</div>
+
+<div class="tool-wrap">
+
+  <!-- PROGRESS INDICATOR -->
+  <div class="progress-track" id="progress-track">
+    <div class="progress-step active" id="pt-0"><div class="progress-dot">1</div><span>Situation</span></div>
+    <div class="progress-line" id="pl-0"></div>
+    <div class="progress-step" id="pt-1"><div class="progress-dot">2</div><span>Details</span></div>
+    <div class="progress-line" id="pl-1"></div>
+    <div class="progress-step" id="pt-2"><div class="progress-dot">3</div><span>Your steps</span></div>
+  </div>
+
+  <!-- SCREEN 0: Situation -->
+  <div class="screen active" id="screen-0">
+    <div class="question-header">
+      <div class="q-step" id="q0-step">Step 1 — What happened</div>
+      <h2 id="q0-title">What situation brings you here?</h2>
+      <p id="q0-sub">Choose the one that's closest to yours.</p>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="choose('crime', 1)">
+        <div class="opt-icon">⚖️</div>
+        <div class="opt-body"><strong id="o0-1">A crime was committed against me</strong><span id="o0-1s">Theft, assault, harassment, domestic violence, fraud, or any other offence</span></div>
+      </button>
+      <button class="opt" onclick="choose('arrested', 1)">
+        <div class="opt-icon">🔒</div>
+        <div class="opt-body"><strong id="o0-2">Someone I know has been arrested</strong><span id="o0-2s">I want to know their rights or help get them bail</span></div>
+      </button>
+      <button class="opt" onclick="choose('rights', 1)">
+        <div class="opt-icon">🛡️</div>
+        <div class="opt-body"><strong id="o0-3">My rights have been violated</strong><span id="o0-3s">By police, government, an employer, or an institution</span></div>
+      </button>
+      <button class="opt" onclick="choose('dispute', 1)">
+        <div class="opt-icon">📄</div>
+        <div class="opt-body"><strong id="o0-4">I have a property or money dispute</strong><span id="o0-4s">Land, inheritance, loan, or contract problem</span></div>
+      </button>
+      <button class="opt" onclick="choose('idk', 1)">
+        <div class="opt-icon">❓</div>
+        <div class="opt-body"><strong id="o0-5">I'm not sure / something else</strong><span id="o0-5s">I need help figuring out where to start</span></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- SCREEN 1A: Crime path -->
+  <div class="screen" id="screen-crime">
+    <div class="breadcrumb"><span class="crumb">Crime victim</span><span>›</span><span>When did it happen?</span></div>
+    <div class="question-header">
+      <div class="q-step">Step 2 — Timing</div>
+      <h2>When did this happen?</h2>
+      <p>This changes which steps are most urgent for you right now.</p>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="goResult('fir-urgent')">
+        <div class="opt-icon">🚨</div>
+        <div class="opt-body"><strong>In the last 24–48 hours</strong><span>Very recent — time-sensitive steps apply</span></div>
+      </button>
+      <button class="opt" onclick="goResult('fir-standard')">
+        <div class="opt-icon">📅</div>
+        <div class="opt-body"><strong>A few days or weeks ago</strong><span>You can still file — delay doesn't extinguish your right</span></div>
+      </button>
+      <button class="opt" onclick="goResult('fir-ongoing')">
+        <div class="opt-icon">🔄</div>
+        <div class="opt-body"><strong>It's ongoing / keeps happening</strong><span>Repeated harassment, domestic violence, continuous extortion</span></div>
+      </button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button></div>
+  </div>
+
+  <!-- SCREEN 1B: Arrest path -->
+  <div class="screen" id="screen-arrested">
+    <div class="breadcrumb"><span class="crumb">Someone arrested</span><span>›</span><span>Custody situation</span></div>
+    <div class="question-header">
+      <div class="q-step">Step 2 — Custody</div>
+      <h2>Where are they right now?</h2>
+      <p>The legal steps differ depending on how long they've been held.</p>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="goResult('arrest-fresh')">
+        <div class="opt-icon">⏱️</div>
+        <div class="opt-body"><strong>Just arrested — within 24 hours</strong><span>The most urgent constitutional protections apply right now</span></div>
+      </button>
+      <button class="opt" onclick="goResult('arrest-custody')">
+        <div class="opt-icon">🏛️</div>
+        <div class="opt-body"><strong>In police lock-up or judicial custody</strong><span>Already produced before magistrate or remanded</span></div>
+      </button>
+      <button class="opt" onclick="goResult('arrest-bail')">
+        <div class="opt-icon">🔑</div>
+        <div class="opt-body"><strong>Bail was denied or they can't afford surety</strong><span>I want to understand bail options</span></div>
+      </button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button></div>
+  </div>
+
+  <!-- SCREEN 1C: Rights path -->
+  <div class="screen" id="screen-rights">
+    <div class="breadcrumb"><span class="crumb">Rights violated</span><span>›</span><span>Who violated them?</span></div>
+    <div class="question-header">
+      <div class="q-step">Step 2 — Violation</div>
+      <h2>Who violated your rights?</h2>
+    </div>
+    <div class="options">
+      <button class="opt" onclick="goResult('rights-police')">
+        <div class="opt-icon">👮</div>
+        <div class="opt-body"><strong>Police or government officials</strong><span>Unlawful detention, custodial violence, police excess, forced signature</span></div>
+      </button>
+      <button class="opt" onclick="goResult('rights-employer')">
+        <div class="opt-icon">💼</div>
+        <div class="opt-body"><strong>My employer or institution</strong><span>Workplace harassment, wrongful dismissal, caste discrimination</span></div>
+      </button>
+      <button class="opt" onclick="goResult('rights-general')">
+        <div class="opt-icon">🏛️</div>
+        <div class="opt-body"><strong>Government scheme / denied a service</strong><span>Ration card, MNREGA, hospital, school — denied on illegal grounds</span></div>
+      </button>
+    </div>
+    <div class="nav-row"><button class="btn-back" onclick="goBack()">← Back</button></div>
+  </div>
+
+  <!-- ========== RESULTS ========== -->
+
+  <!-- RESULT: FIR Urgent -->
+  <div class="screen" id="result-fir-urgent">
+    <div class="breadcrumb"><span class="crumb">Crime victim</span><span>›</span><span class="crumb">Recent</span><span>›</span><span>Your steps</span></div>
+    <div class="result-banner">
+      <span class="result-banner-icon">✅</span>
+      <div><h2>File an FIR — do this today</h2><p>First Information Report · Section 154 CrPC · Your most important first action</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">Step by step — what to do now</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>Go to the police station where the crime occurred</strong><span>You must go to the station in whose area (jurisdiction) the crime took place. The station in-charge is legally required to register your FIR under Section 154 CrPC. They cannot legally refuse.</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>Give your complaint in writing, or tell it out loud</strong><span>If you give it orally, the officer must write it down themselves, read it back to you, and have you sign it. You are legally entitled to a free copy of the FIR immediately — ask for it.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>What to bring</strong><span>Any Aadhaar or identity card. Any evidence — photos, screenshots, medical certificate if injured. Names and phone numbers of any witnesses. Write down the exact time, date, place, and what happened before you go.</span></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><strong>If police refuse to register your FIR</strong><span>Send a written complaint by post to the Superintendent of Police (SP) of the district. You can also approach a Judicial Magistrate directly under Section 156(3) CrPC and request them to direct the police to file the FIR.</span></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-body"><strong>If you need a lawyer and cannot afford one</strong><span>Contact your District Legal Services Authority (DLSA). Every district has one. Free legal aid is your right under the Legal Services Authorities Act, 1987. They can assign you a lawyer at no cost.</span></div></div>
+    </div>
+    <div class="info-box"><span class="info-box-icon">ℹ️</span><p><strong>Remember:</strong> The FIR is a public document and yours by right. Once registered, insist on getting a stamped copy. This is the foundation of your entire case — keep it safe.</p></div>
+    <div class="tag-row">
+      <span class="tag">Section 154 CrPC</span><span class="tag">Section 156(3)</span><span class="tag">DLSA free aid</span><span class="tag">No time limit to file FIR</span>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-secondary" onclick="window.open('https://nalsa.gov.in','_blank')">Find free legal aid →</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+  <!-- RESULT: FIR Standard -->
+  <div class="screen" id="result-fir-standard">
+    <div class="breadcrumb"><span class="crumb">Crime victim</span><span>›</span><span class="crumb">Days/weeks ago</span><span>›</span><span>Your steps</span></div>
+    <div class="result-banner">
+      <span class="result-banner-icon">✅</span>
+      <div><h2>You can still file an FIR</h2><p>There is no fixed time limit to register an FIR · Delay may need explanation, but your right remains</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">Step by step</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>Go to the relevant police station and file your complaint</strong><span>The same right to file an FIR exists regardless of delay. However, be prepared to explain why time passed — document the reason (fear, illness, travel, not knowing your rights).</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>Preserve whatever evidence you still have</strong><span>Screenshots, messages, medical reports, photos, witness contacts. Even if time has passed, evidence can be collected now. Courts take delayed reporting seriously when explained honestly.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>If police cite delay as a reason to refuse</strong><span>This is not legally valid. You can approach the SP by post, or file a private complaint before a Magistrate under Section 156(3) or Section 200 CrPC.</span></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><strong>Consider approaching a legal aid lawyer first</strong><span>A DLSA lawyer can help you draft a strong complaint that addresses the delay upfront — which increases your chances of the FIR being registered without resistance.</span></div></div>
+    </div>
+    <div class="info-box"><span class="info-box-icon">ℹ️</span><p>In cases of sexual violence, the Supreme Court has repeatedly held that delayed FIRs do not destroy credibility — courts are instructed to consider the trauma and social context of delay.</p></div>
+    <div class="tag-row"><span class="tag">Section 154 CrPC</span><span class="tag">Section 200 CrPC</span><span class="tag">Section 156(3)</span><span class="tag">DLSA free aid</span></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-secondary" onclick="window.open('https://nalsa.gov.in','_blank')">Find DLSA near you →</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+  <!-- RESULT: FIR Ongoing -->
+  <div class="screen" id="result-fir-ongoing">
+    <div class="breadcrumb"><span class="crumb">Crime victim</span><span>›</span><span class="crumb">Ongoing</span><span>›</span><span>Your steps</span></div>
+    <div class="result-banner">
+      <span class="result-banner-icon">🛡️</span>
+      <div><h2>File now and seek protection</h2><p>Ongoing harm · Protection orders available · You do not have to wait for it to stop</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">Step by step</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>File an FIR immediately for the most recent incident</strong><span>You do not need to wait for it to happen again. File for the most recent instance today. Each occurrence can be reported separately, or as a pattern of continuous conduct.</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>For domestic violence — the Protection of Women from Domestic Violence Act, 2005 applies</strong><span>You can approach a Protection Officer (every district has one) or a Magistrate directly for a Protection Order, Residence Order, or Monetary Relief — without filing an FIR first. These are civil remedies and faster.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>Keep a written record of each incident</strong><span>Date, time, what happened, any witnesses, any injuries. Even a personal diary entry with dates has been accepted as corroboration by courts.</span></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><strong>Contact a women's / victims' helpline</strong><span>Dial 181 (Women Helpline), 112 (Emergency), or 1091 (Women in Distress). Legal aid NGOs can also provide immediate support and legal assistance.</span></div></div>
+    </div>
+    <div class="info-box"><span class="info-box-icon">ℹ️</span><p><strong>You are safe to report.</strong> Under the DV Act, a Protection Officer must assist you in filing a complaint. If police are unresponsive, go directly to a Magistrate. The law creates this alternative path precisely for situations where fear or dependency makes police reporting difficult.</p></div>
+    <div class="tag-row"><span class="tag">DV Act 2005</span><span class="tag">Protection Order</span><span class="tag">181 Helpline</span><span class="tag">Protection Officer</span></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+  <!-- RESULT: Arrest Fresh -->
+  <div class="screen" id="result-arrest-fresh">
+    <div class="breadcrumb"><span class="crumb">Someone arrested</span><span>›</span><span class="crumb">Last 24 hours</span><span>›</span><span>Urgent steps</span></div>
+    <div class="result-banner" style="background:#fdf3f2; border-color:#f4c0b8;">
+      <span class="result-banner-icon">⚠️</span>
+      <div><h2 style="color:#8b3a2a;">Act immediately — rights are time-sensitive</h2><p style="color:#8b3a2a;">Article 22 of the Constitution · Fundamental rights on arrest</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">What the law guarantees — right now</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>They must be told why they were arrested</strong><span>Article 22(1) of the Constitution: every arrested person must be informed of the grounds of arrest immediately. This is not optional for the police — it is a fundamental right.</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>They must be produced before a Magistrate within 24 hours</strong><span>Article 22(2): if the police fail to do this, the detention becomes unlawful. You can immediately file a Habeas Corpus petition in the High Court if this right is being violated.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>They have the right to consult a lawyer immediately</strong><span>Article 22(1): they can consult a lawyer of their choice from the moment of arrest. Police cannot deny this. If they cannot afford a lawyer, contact the District Legal Services Authority (DLSA) immediately — free aid is available as a right.</span></div></div>
+      <div class="step-row"><div class="step-num">4</div><div class="step-body"><strong>A family member or friend must be informed</strong><span>Section 50A CrPC requires the police to inform a nominated person of the arrest and the place of detention. Ask the arresting officer directly — insist on this right.</span></div></div>
+      <div class="step-row"><div class="step-num">5</div><div class="step-body"><strong>Find out exactly where they are being held</strong><span>Go to the nearest police station. Ask for the "production register" or "lock-up register." You have the right to know the place of detention.</span></div></div>
+    </div>
+    <div class="info-box"><span class="info-box-icon">📞</span><p><strong>Call your District Legal Services Authority (DLSA) now.</strong> They are legally required to provide emergency legal aid and can send a lawyer to the police station. This is free. Find your DLSA at nalsa.gov.in or call 15100 (NALSA helpline).</p></div>
+    <div class="tag-row"><span class="tag">Article 22 Constitution</span><span class="tag">Section 50A CrPC</span><span class="tag">Habeas Corpus</span><span class="tag">DLSA emergency aid</span><span class="tag">15100 NALSA</span></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-secondary" onclick="window.open('https://nalsa.gov.in','_blank')">Find DLSA →</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+  <!-- RESULT: Rights - Police -->
+  <div class="screen" id="result-rights-police">
+    <div class="breadcrumb"><span class="crumb">Rights violated</span><span>›</span><span class="crumb">Police / govt</span><span>›</span><span>Your options</span></div>
+    <div class="result-banner">
+      <span class="result-banner-icon">⚖️</span>
+      <div><h2>You have three formal paths</h2><p>Against police excess or government rights violations</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">Choose based on urgency and severity</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>State Human Rights Commission (SHRC) — free, no lawyer needed</strong><span>File a written complaint at your state's SHRC. No fee, no lawyer required. You can submit in Hindi or English. They can recommend compensation, inquiry against officers, and corrective action.</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>National Human Rights Commission (NHRC) — for serious or unresolved cases</strong><span>File online at nhrc.nic.in. Also free. If the SHRC is unresponsive or the violation is grave (custodial death, torture, forced confession), NHRC has broader authority. They can issue notices to Chief Secretaries and DGPs.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>Writ Petition — High Court under Article 226</strong><span>For urgent or serious violations, a writ petition in the High Court is the most powerful remedy. A Habeas Corpus can be filed the same day. DLSA will assign a free lawyer to help you do this.</span></div></div>
+    </div>
+    <div class="info-box"><span class="info-box-icon">📋</span><p><strong>Before you do anything:</strong> document everything. Write down dates, officer names and badge numbers, witnesses, what was said or done. Get a medical certificate immediately if there was any physical harm. These documents are the basis of every path above.</p></div>
+    <div class="tag-row"><span class="tag">Article 226 Writ Petition</span><span class="tag">NHRC complaint</span><span class="tag">SHRC complaint</span><span class="tag">Habeas Corpus</span><span class="tag">DLSA free aid</span></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-secondary" onclick="window.open('https://nhrc.nic.in','_blank')">File NHRC complaint →</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+  <!-- RESULT: Fallback -->
+  <div class="screen" id="result-fallback">
+    <div class="result-banner">
+      <span class="result-banner-icon">🤝</span>
+      <div><h2>Start with free legal advice</h2><p>Your situation may need a personalised path — here's how to get one at no cost</p></div>
+    </div>
+    <div class="steps-card">
+      <div class="steps-card-header">Where to go first</div>
+      <div class="step-row"><div class="step-num">1</div><div class="step-body"><strong>District Legal Services Authority (DLSA)</strong><span>Every district in India has a DLSA. Walk in with your problem — in any language. They provide free legal advice and can assign a lawyer if you qualify. No paperwork needed to just ask for advice.</span></div></div>
+      <div class="step-row"><div class="step-num">2</div><div class="step-body"><strong>NALSA Helpline — 15100</strong><span>Call 15100 (toll-free) to reach the National Legal Services Authority. They can direct you to the right authority for your specific situation and connect you with local legal aid services.</span></div></div>
+      <div class="step-row"><div class="step-num">3</div><div class="step-body"><strong>Lok Adalat — for disputes and settlements</strong><span>If your matter involves a dispute (money, property, family) that both parties might want to resolve without a long court case, a Lok Adalat can resolve it free, fast, and finally — with the force of a court decree.</span></div></div>
+    </div>
+    <div class="tag-row"><span class="tag">DLSA free aid</span><span class="tag">15100 NALSA helpline</span><span class="tag">Lok Adalat</span><span class="tag">nalsa.gov.in</span></div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goBack()">← Back</button>
+      <button class="btn-secondary" onclick="window.open('https://nalsa.gov.in','_blank')">Find help near you →</button>
+      <button class="btn-restart" onclick="restart()">Start over</button>
+    </div>
+  </div>
+
+</div><!-- /tool-wrap -->
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="about-inner">
+    <div class="about-col">
+      <span class="pill">Domain</span>
+      <h3>Access to Justice</h3>
+      <p>Nyay Sathi sits at the intersection of legal literacy, court access infrastructure, and civic empowerment — targeting the layer of the system where most people fall through.</p>
+    </div>
+    <div class="about-col">
+      <span class="pill">Problem</span>
+      <h3>The knowing-doing gap</h3>
+      <p>Over 5 crore cases are pending in Indian courts. The barrier for first-generation litigants isn't the law itself — it's the gap between a right existing and a person knowing how to exercise it.</p>
+    </div>
+    <div class="about-col">
+      <span class="pill">Built for JLF</span>
+      <h3>JGU Lex Foundry · 2026</h3>
+      <p>A prototype submission for JLF Cohort 1. Built by a law student with internship experience in human rights litigation, district courts, and the Delhi High Court.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Nyay Sathi · Prototype v1 · Built for JGU Lex Foundry 2026 · <a href="https://jgu.edu.in" target="_blank">Jindal Global Law School</a> · Not a substitute for legal advice
+</footer>
+
+<script>
+const history = [];
+
+const i18n = {
+  en: {
+    eyebrow: "Your rights. Your court. Your guide.",
+    title: "Find your way to <em>court</em>",
+    sub: "Answer a few questions. We'll tell you exactly what to do, where to go, and what to bring — in plain language, no lawyer needed to get started."
+  },
+  hi: {
+    eyebrow: "आपके अधिकार। आपकी अदालत। आपका मार्गदर्शन।",
+    title: "अदालत तक पहुँचने का <em>रास्ता</em>",
+    sub: "कुछ सवालों के जवाब दें — हम बताएंगे क्या करना है, कहाँ जाना है, और क्या लाना है।"
+  },
+  ur: {
+    eyebrow: "آپ کے حقوق۔ آپ کی عدالت۔ آپ کا رہنما۔",
+    title: "عدالت تک پہنچنے کا <em>راستہ</em>",
+    sub: "چند سوالوں کے جواب دیں — ہم بتائیں گے کہ کیا کرنا ہے، کہاں جانا ہے، کیا لانا ہے۔"
+  },
+  pa: {
+    eyebrow: "ਤੁਹਾਡੇ ਅਧਿਕਾਰ। ਤੁਹਾਡੀ ਅਦਾਲਤ। ਤੁਹਾਡੀ ਅਗਵਾਈ।",
+    title: "ਅਦਾਲਤ ਤੱਕ ਪਹੁੰਚਣ ਦਾ <em>ਰਾਹ</em>",
+    sub: "ਕੁਝ ਸਵਾਲਾਂ ਦੇ ਜਵਾਬ ਦਿਓ — ਅਸੀਂ ਦੱਸਾਂਗੇ ਕੀ ਕਰਨਾ ਹੈ।"
+  }
+};
+
+function setLang(lang, btn) {
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const t = i18n[lang];
+  document.getElementById('eyebrow-text').textContent = t.eyebrow;
+  document.getElementById('hero-title').innerHTML = t.title;
+  document.getElementById('hero-sub').textContent = t.sub;
+  document.documentElement.setAttribute('lang', lang);
+  if (lang === 'ur') document.body.style.direction = 'rtl';
+  else document.body.style.direction = 'ltr';
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  updateProgress(id);
+}
+
+function updateProgress(id) {
+  const isResult = id.startsWith('result');
+  const isStep1 = ['screen-crime','screen-arrested','screen-rights'].includes(id);
+  ['pt-0','pt-1','pt-2'].forEach((p,i) => {
+    const el = document.getElementById(p);
+    el.classList.remove('active','done');
+    const line = document.getElementById('pl-'+i);
+    if (line) line.classList.remove('done');
+  });
+  if (id === 'screen-0') {
+    document.getElementById('pt-0').classList.add('active');
+  } else if (isStep1) {
+    document.getElementById('pt-0').classList.add('done');
+    document.getElementById('pl-0').classList.add('done');
+    document.getElementById('pt-1').classList.add('active');
+  } else if (isResult) {
+    document.getElementById('pt-0').classList.add('done');
+    document.getElementById('pt-1').classList.add('done');
+    document.getElementById('pl-0').classList.add('done');
+    document.getElementById('pl-1').classList.add('done');
+    document.getElementById('pt-2').classList.add('active');
+  }
+}
+
+function choose(path, step) {
+  history.push({ screen: currentScreen() });
+  const map = {
+    crime: 'screen-crime',
+    arrested: 'screen-arrested',
+    rights: 'screen-rights',
+    dispute: 'result-fallback',
+    idk: 'result-fallback'
+  };
+  showScreen(map[path] || 'result-fallback');
+}
+
+function goResult(id) {
+  history.push({ screen: currentScreen() });
+  showScreen('result-' + id);
+}
+
+function currentScreen() {
+  const active = document.querySelector('.screen.active');
+  return active ? active.id : 'screen-0';
+}
+
+function goBack() {
+  const prev = history.pop();
+  showScreen(prev ? prev.screen : 'screen-0');
+}
+
+function restart() {
+  history.length = 0;
+  showScreen('screen-0');
+  document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
